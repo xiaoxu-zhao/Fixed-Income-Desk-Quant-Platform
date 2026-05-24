@@ -246,7 +246,7 @@ Open `output/dashboard.html` after running the demo to inspect the static dashbo
 
 This is an interview-ready simulation, not a production desk system.
 
-- Curves are supplied synthetic zero curves with linear interpolation and flat extrapolation, not bootstrapped Treasury, OIS, or SOFR curves.
+- Curves are supplied synthetic zero curves with linear interpolation and flat extrapolation, not bootstrapped Treasury, OIS, or SOFR curves. (In the next Phase I can in principle use treasury bonds from WRDS to draw the curve, but still not like ESTR and OIS risk-free)
 - Date handling, calendars, settlement, accrued interest, holidays, and day-count conventions are simplified.
 - Key-rate DV01 is a nearest-pillar bump measure, not a production triangular bucket or smooth curve-node sensitivity.
 - Swap pricing uses a simplified single-curve framework and par-floating-leg approximation.
@@ -263,7 +263,7 @@ This is an interview-ready simulation, not a production desk system.
 ## 8. Roadmap
 
 ### Phase 2: Corporate Bond Credit Analytics
-
+- Data Source: WRDS TRACE
 - YTM.
 - G-spread.
 - Z-spread.
