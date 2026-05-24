@@ -2,7 +2,7 @@
 
 This project simulates one working day of a front-office fixed-income desk quant.
 
-**Live demo dashboard:** [View the generated Phase 1 desk-day results](https://xiaoxu-zhao.github.io/Fixed-Income-Desk-Quant-Platform/)
+**Live demo dashboard:** [View the generated Phase 1 desk-day results](https://xiaoxu-zhao.github.io/Fixed-Income-Desk-Quant-Platform/demo/)
 
 The current implementation is **Phase 1**: a deterministic rates desk simulation covering Treasury curve inputs, bond and swap pricing, portfolio risk, P&L explain, synthetic Treasury futures market replay, aggregate order-book analytics, execution metrics, Python plots, a static dashboard, and a rule-based desk summary.
 
@@ -246,7 +246,7 @@ Open `output/dashboard.html` after running the demo to inspect the static dashbo
 
 The same static dashboard is published from GitHub Actions to GitHub Pages:
 
-- [Live Phase 1 dashboard](https://xiaoxu-zhao.github.io/Fixed-Income-Desk-Quant-Platform/)
+- [Live Phase 1 dashboard](https://xiaoxu-zhao.github.io/Fixed-Income-Desk-Quant-Platform/demo/)
 - The Pages workflow regenerates the dashboard from source on every push to `main`.
 
 ## 7. Current Limitations

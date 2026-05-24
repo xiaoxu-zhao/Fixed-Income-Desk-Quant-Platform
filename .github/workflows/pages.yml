@@ -40,11 +40,25 @@ jobs:
 
       - name: Prepare Pages artifact
         run: |
-          mkdir -p site
-          cp output/dashboard.html site/index.html
-          cp output/desk_summary.md site/
-          cp output/*.csv site/
-          cp -r output/plots site/
+          mkdir -p site/demo
+          cp output/dashboard.html site/demo/index.html
+          cp output/desk_summary.md site/demo/
+          cp output/*.csv site/demo/
+          cp -r output/plots site/demo/
+          cat > site/index.html <<'HTML'
+          <!doctype html>
+          <html lang="en">
+          <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <meta http-equiv="refresh" content="0; url=demo/">
+            <title>Fixed Income Desk Quant Platform</title>
+          </head>
+          <body>
+            <p><a href="demo/">Open the Phase 1 demo dashboard</a></p>
+          </body>
+          </html>
+          HTML
           touch site/.nojekyll
 
       - name: Configure Pages
