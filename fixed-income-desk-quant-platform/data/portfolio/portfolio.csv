@@ -1,0 +1,7 @@
+type,instrument_id,position,face,coupon,maturity,frequency,notional,fixed_rate,payer_fixed
+bond,T2Y,100,1000000,0.0400,2.0,2,,,
+bond,T5Y,80,1000000,0.0425,5.0,2,,,
+bond,T10Y,50,1000000,0.0450,10.0,2,,,
+swap,S5Y_PAY,1,,,,,50000000,0.0415,true
+swap,S10Y_REC,1,,,,,30000000,0.0430,false
+
