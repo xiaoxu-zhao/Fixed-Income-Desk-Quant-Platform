@@ -1,0 +1,12 @@
+build/
+output/*.csv
+output/*.md
+output/*.html
+output/plots/*
+!output/plots/.gitkeep
+__pycache__/
+.pytest_cache/
+.venv/
+*.pyc
+*.log
+.DS_Store
