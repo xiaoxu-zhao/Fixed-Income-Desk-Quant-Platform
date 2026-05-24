@@ -29,6 +29,9 @@ jobs:
       - name: Run CTest
         run: ctest --test-dir build --build-config Release --output-on-failure
 
+      - name: Ensure shell scripts are executable
+        run: chmod +x scripts/*.sh
+
       - name: Run root scripts
         run: |
           ./scripts/build.sh
