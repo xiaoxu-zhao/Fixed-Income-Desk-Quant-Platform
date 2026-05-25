@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Event Study | Fixed Income Desk Quant Platform</title>
+  <title>June 2022 FOMC Event Study | Fixed Income Desk Quant Platform</title>
   <link rel="stylesheet" href="../assets/style.css">
 </head>
 <body>
@@ -23,28 +23,71 @@
   <main>
     <section class="intro">
       <div>
-        <p class="eyebrow">Scenario workflow</p>
-        <h1>Event Study</h1>
-        <p class="lead">This page is reserved for future Treasury event-study output. The current deployed demo focuses on one deterministic desk day, while the methodology page documents the curve, risk, and execution calculations used by the platform.</p>
+        <p class="eyebrow">June 2022 FOMC</p>
+        <h1>Treasury Curve Event Study</h1>
+        <p class="lead">A static case study around the June 15, 2022 FOMC meeting, using pre-event and post-event Treasury curve snapshots plus 3D zero-rate and forward-rate surfaces.</p>
         <div class="actions">
-          <a class="button" href="../demo/">Open Main Demo</a>
-          <a class="button secondary" href="../methodology/">Read Methodology</a>
+          <a class="button" href="../methodology/">Read Methodology</a>
+          <a class="button secondary" href="../demo/">Open Main Demo</a>
         </div>
       </div>
       <div class="panel">
-        <h2>Planned Additions</h2>
-        <ul class="data-list">
-          <li>Pre-event and post-event curve snapshots.</li>
-          <li>Basis-point moves by maturity bucket.</li>
-          <li>Portfolio P&amp;L explain around the event window.</li>
-          <li>Level, slope, and curvature decomposition.</li>
-        </ul>
+        <h2>Event Context</h2>
+        <p>Event date: <strong>2022-06-15</strong>. Pre-event curve date: <strong>2022-06-14</strong>. Post-event curve date: <strong>2022-06-16</strong>. After the meeting, the federal funds target range was <strong>1.50% to 1.75%</strong>.</p>
+        <p>The on-the-run U.S. Treasury curve is used here as a liquid USD government benchmark and an approximate risk-free curve for rates-risk visualization. It is not a perfect pure risk-free curve because Treasury yields can also reflect liquidity, term premia, supply-demand effects, and inflation expectations.</p>
       </div>
+    </section>
+
+    <section>
+      <h2>Pre/Post Treasury Curve</h2>
+      <p>The pre/post chart compares the selected maturity grid immediately before and after the FOMC decision.</p>
+      <figure>
+        <img src="../assets/plots/fomc_zero_curve_pre_post.png" alt="Pre-event and post-event Treasury zero curve">
+        <figcaption>Pre-event and post-event Treasury zero/yield curve proxy.</figcaption>
+      </figure>
+    </section>
+
+    <section>
+      <h2>Curve Move In Basis Points</h2>
+      <p>A flat curve-move chart would indicate a parallel shift. Uneven maturity-by-maturity moves indicate a non-parallel shift.</p>
+      <figure>
+        <img src="../assets/plots/fomc_curve_move_bp.png" alt="Treasury curve move by maturity in basis points">
+        <figcaption>Change from June 14 to June 16 by maturity bucket.</figcaption>
+      </figure>
+    </section>
+
+    <section>
+      <h2>3D Curve Surfaces</h2>
+      <div class="plot-grid">
+        <figure>
+          <img src="../assets/plots/fomc_zero_rate_surface_3d.png" alt="Three-dimensional zero-rate surface">
+          <figcaption>Zero/yield curve surface across June 2022 observation dates and maturities.</figcaption>
+        </figure>
+        <figure>
+          <img src="../assets/plots/fomc_forward_rate_surface_3d.png" alt="Three-dimensional forward-rate surface">
+          <figcaption>Forward-rate surface computed from adjacent maturity buckets.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section>
+      <h2>Level, Slope, And Curvature</h2>
+      <p>Level is the average of the 2Y, 5Y, 10Y, and 30Y points. Slope is 10Y minus 2Y. Curvature is 2 times 5Y minus 2Y minus 10Y.</p>
+      <figure>
+        <img src="../assets/plots/fomc_level_slope_curvature.png" alt="Level slope and curvature around the June 2022 FOMC event">
+        <figcaption>Curve-shape diagnostics around the FOMC event window.</figcaption>
+      </figure>
+    </section>
+
+    <section class="panel">
+      <h2>Desk-Quant Interpretation</h2>
+      <p>The case study frames the meeting as a rates-risk shock rather than a single-price event. The pre/post curve chart shows how the curve level changed, while the basis-point move chart separates parallel from non-parallel behavior. The 3D surfaces show whether the event shift was isolated to one date or part of a broader June curve repricing.</p>
+      <p>For desk risk, the non-parallel pattern matters because a portfolio with concentrated 2Y, 5Y, 10Y, or 30Y key-rate exposure can gain or lose even when the headline level move looks modest. The forward surface adds another lens by showing how the event changed implied rates between maturity buckets.</p>
     </section>
   </main>
 
   <footer>
-    <p>Event-study artifacts will use the same static site style and navigation.</p>
+    <p>Static GitHub Pages event study. Raw WRDS/CRSP Treasury data are not published.</p>
   </footer>
 </body>
 </html>

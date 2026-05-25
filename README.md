@@ -249,6 +249,10 @@ The same static dashboard is published from GitHub Actions to GitHub Pages:
 - [Live Phase 1 dashboard](https://xiaoxu-zhao.github.io/Fixed-Income-Desk-Quant-Platform/demo/)
 - The Pages workflow regenerates the dashboard from source on every push to `main`.
 
+## June 2022 FOMC Event Study
+
+The GitHub Pages website includes an event-study page for the June 15, 2022 FOMC meeting. It shows the pre/post Treasury curve, curve move in basis points, 3D zero/yield surface, 3D forward-rate surface, and level/slope/curvature diagnostics. The page demonstrates that event-window Treasury curve moves can be non-parallel, so maturity-by-maturity risk matters. Raw WRDS/CRSP Treasury data are not published in the repository.
+
 ## 7. Current Limitations
 
 This is an interview-ready simulation, not a production desk system.

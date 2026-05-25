@@ -4,8 +4,9 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 DOCS_DIR="$ROOT/docs"
 DEMO_DIR="$DOCS_DIR/demo"
+ASSET_PLOTS_DIR="$DOCS_DIR/assets/plots"
 
-mkdir -p "$DOCS_DIR/assets" "$DOCS_DIR/methodology" "$DEMO_DIR"
+mkdir -p "$DOCS_DIR/assets" "$DOCS_DIR/methodology" "$DEMO_DIR" "$ASSET_PLOTS_DIR"
 
 rm -f "$DEMO_DIR"/*.html "$DEMO_DIR"/*.csv "$DEMO_DIR"/*.md
 rm -rf "$DEMO_DIR/plots"
@@ -15,6 +16,18 @@ cp "$ROOT/output/dashboard.html" "$DEMO_DIR/dashboard.html"
 cp "$ROOT/output/desk_summary.md" "$DEMO_DIR/"
 cp "$ROOT/output"/*.csv "$DEMO_DIR/"
 cp -R "$ROOT/output/plots/." "$DEMO_DIR/plots/"
+
+python python/build_fomc_event_study.py
+python python/plot_fomc_event_study.py
+
+for plot in \
+  fomc_zero_curve_pre_post.png \
+  fomc_curve_move_bp.png \
+  fomc_zero_rate_surface_3d.png \
+  fomc_forward_rate_surface_3d.png \
+  fomc_level_slope_curvature.png; do
+  cp "$ROOT/output/plots/$plot" "$ASSET_PLOTS_DIR/$plot"
+done
 
 cat > "$DEMO_DIR/index.html" <<'HTML'
 <!doctype html>
