@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fixed Income Desk Quant Platform</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary navigation">
+      <a class="brand" href="./">Fixed Income Desk Quant Platform</a>
+      <div class="nav-links">
+        <a href="./" aria-current="page">Home</a>
+        <a href="demo/">Main Demo</a>
+        <a href="event-study/">Event Study</a>
+        <a href="methodology/">Methodology</a>
+        <a href="https://github.com/xiaoxu-zhao/Fixed-Income-Desk-Quant-Platform">GitHub Repository</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="intro">
+      <div>
+        <p class="eyebrow">Rates analytics, risk, and execution</p>
+        <h1>Fixed Income Desk Quant Platform</h1>
+        <p class="lead">A deterministic front-office rates desk simulation that connects Treasury curve inputs, bond and swap pricing, portfolio risk, P&amp;L explain, intraday futures replay, and execution analytics.</p>
+        <div class="actions">
+          <a class="button" href="demo/">Open Main Demo</a>
+          <a class="button secondary" href="methodology/">Read Methodology</a>
+        </div>
+      </div>
+      <div class="panel">
+        <h2>What The Site Publishes</h2>
+        <p>The deployed site is built from generated CSV reports, PNG plots, and a static dashboard. The methodology page documents the formulas behind the generated risk, valuation, curve, and execution measures.</p>
+        <ul class="data-list">
+          <li>Instrument PV, DV01, convexity, and key-rate DV01.</li>
+          <li>P&amp;L explain from curve moves and full revaluation.</li>
+          <li>Intraday market replay and execution quality metrics.</li>
+          <li>Static pages deployable through GitHub Pages.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="grid" aria-label="Project areas">
+      <div class="metric">
+        <strong>Pricing</strong>
+        <span>Bond cash flows, zero-rate discounting, yield-to-maturity solving, and vanilla swap valuation.</span>
+      </div>
+      <div class="metric">
+        <strong>Risk</strong>
+        <span>DV01, pillar key-rate DV01, convexity, and curve shape measures for level, slope, and curvature.</span>
+      </div>
+      <div class="metric">
+        <strong>Execution</strong>
+        <span>Order-book replay, arrival price, VWAP, TWAP, fill ratio, slippage, and shortfall.</span>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>All market data in the demo is synthetic or locally provided for methodology illustration.</p>
+  </footer>
+</body>
+</html>

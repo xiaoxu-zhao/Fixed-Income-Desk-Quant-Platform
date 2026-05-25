@@ -38,28 +38,8 @@ jobs:
           chmod +x scripts/*.sh
           ./scripts/run_full_demo.sh
 
-      - name: Prepare Pages artifact
-        run: |
-          mkdir -p site/demo
-          cp output/dashboard.html site/demo/index.html
-          cp output/desk_summary.md site/demo/
-          cp output/*.csv site/demo/
-          cp -r output/plots site/demo/
-          cat > site/index.html <<'HTML'
-          <!doctype html>
-          <html lang="en">
-          <head>
-            <meta charset="utf-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1">
-            <meta http-equiv="refresh" content="0; url=demo/">
-            <title>Fixed Income Desk Quant Platform</title>
-          </head>
-          <body>
-            <p><a href="demo/">Open the Phase 1 demo dashboard</a></p>
-          </body>
-          </html>
-          HTML
-          touch site/.nojekyll
+      - name: Build Pages site
+        run: ./scripts/build_pages_site.sh
 
       - name: Configure Pages
         uses: actions/configure-pages@v6
@@ -67,7 +47,7 @@ jobs:
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v5
         with:
-          path: site
+          path: docs
 
       - name: Deploy to GitHub Pages
         id: deployment
