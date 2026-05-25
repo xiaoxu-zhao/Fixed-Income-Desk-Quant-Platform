@@ -9,222 +9,101 @@
 <body>
   <header class="site-header">
     <nav class="nav" aria-label="Primary navigation">
-      <a class="brand" href="../">Fixed Income Desk Quant Platform</a>
+      <a class="brand" href="../"><span class="brand-mark">FI</span>Fixed Income Desk Quant</a>
       <div class="nav-links">
         <a href="../">Home</a>
         <a href="../demo/">Main Demo</a>
         <a href="../event-study/">Event Study</a>
         <a href="./" aria-current="page">Methodology</a>
-        <a href="https://github.com/xiaoxu-zhao/Fixed-Income-Desk-Quant-Platform">GitHub Repository</a>
+        <a href="https://github.com/xiaoxu-zhao/Fixed-Income-Desk-Quant-Platform">GitHub</a>
       </div>
     </nav>
   </header>
 
   <main>
-    <section class="intro">
+    <section class="hero compact">
       <div>
-        <p class="eyebrow">Model notes</p>
+        <span class="badge success">Technical notes</span>
         <h1>Methodology</h1>
-        <p class="lead">The project uses transparent fixed-income formulas so the generated dashboard can be audited from inputs to valuation, risk, P&amp;L explain, and execution analytics.</p>
+        <p class="lead">A concise map of the formulas, curve conventions, and diagnostics behind the static demo. The project is intentionally transparent rather than production-grade.</p>
       </div>
-      <div class="panel">
-        <h2>Notation</h2>
-        <p><strong>t</strong> is valuation time, <strong>T</strong> is maturity, <strong>tau</strong> is year fraction, <strong>z(T)</strong> is the annual zero rate, <strong>DF(T)</strong> is the discount factor, and <strong>dy</strong> is a rate bump in decimal terms.</p>
+      <div class="terminal-card">
+        <div class="terminal-row"><span>rates</span><strong>decimals, not percent strings</strong></div>
+        <div class="terminal-row"><span>prices</span><strong>dirty price for cashflow pricing</strong></div>
+        <div class="terminal-row"><span>risk</span><strong>DV01 and key-rate DV01</strong></div>
+        <div class="terminal-row"><span>scope</span><strong>portfolio simulation</strong></div>
       </div>
     </section>
 
-    <section>
-      <h2>Curve Terminology</h2>
-      <p>The Treasury curve is a liquid USD government benchmark and an approximate risk-free curve for rates-risk visualization. In practice, banks often use SOFR/OIS curves for collateralized derivatives discounting, while Treasury curves are widely used for government-bond pricing, relative-value analysis, key-rate risk, and spread measurement.</p>
-      <p>It is not the same as a SOFR/OIS discount curve, an interbank unsecured funding curve, or the official Treasury par yield curve. Treasury yields may include liquidity premium, term premium, safe-haven demand, inflation expectations, supply/demand effects, and tax or regulatory effects. On-the-run Treasuries are liquid benchmark securities, but they can trade rich because of liquidity and specialness.</p>
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">Curve conventions</span>
+          <h2>Which curve is being used?</h2>
+        </div>
+      </div>
+      <div class="grid two">
+        <div class="card"><h3>Treasury benchmark</h3><p>The Treasury curve is a liquid USD government benchmark and an approximate risk-free curve for rates-risk visualization. It is useful for Treasury risk, key-rate DV01 intuition, event-study visualization, and spread benchmarking.</p></div>
+        <div class="card"><h3>SOFR/OIS distinction</h3><p>Banks typically use SOFR/OIS curves for collateralized derivatives discounting. This project keeps SOFR/OIS as a future extension and does not claim production derivatives discounting.</p></div>
+      </div>
+    </section>
+
+    <section class="section">
       <div class="table-wrap">
         <table>
-          <thead>
-            <tr>
-              <th>Curve type</th>
-              <th>Built from</th>
-              <th>Meaning</th>
-              <th>Used for in this project</th>
-            </tr>
-          </thead>
+          <thead><tr><th>Curve type</th><th>Built from</th><th>Meaning</th><th>Used for in this project</th></tr></thead>
           <tbody>
-            <tr>
-              <td>Treasury par yield curve</td>
-              <td>Official government par yield data.</td>
-              <td>Coupon rate that would price a hypothetical Treasury at par for each maturity.</td>
-              <td>Public benchmark comparison.</td>
-            </tr>
-            <tr>
-              <td>On-the-run observed YTM curve</td>
-              <td>WRDS/CRSP on-the-run Treasury issue yields or prices.</td>
-              <td>Yield to maturity of the most liquid benchmark issues.</td>
-              <td>Event-study visualization and benchmark curve movement.</td>
-            </tr>
-            <tr>
-              <td>Fitted zero curve</td>
-              <td>Dirty prices and cashflows.</td>
-              <td>Discount rates by maturity that approximately reprice selected Treasury issues.</td>
-              <td>Pricing, DV01, forward-rate calculation, and P&amp;L explain.</td>
-            </tr>
-            <tr>
-              <td>SOFR/OIS curve</td>
-              <td>Overnight indexed swaps / SOFR-linked instruments.</td>
-              <td>Secured overnight collateralized discount curve.</td>
-              <td>Future extension for realistic derivatives discounting.</td>
-            </tr>
+            <tr><td>Treasury par yield curve</td><td>Official government par yield data.</td><td>Coupon rate that prices a hypothetical Treasury at par.</td><td>Public benchmark comparison.</td></tr>
+            <tr><td>On-the-run observed YTM curve</td><td>WRDS/CRSP on-the-run issue yields or prices.</td><td>Yield to maturity of liquid benchmark issues.</td><td>Event-study visualization and benchmark movement.</td></tr>
+            <tr><td>Fitted zero curve</td><td>Dirty prices and cashflows.</td><td>Discount rates by maturity that approximately reprice selected Treasury issues.</td><td>Pricing, DV01, forwards, and P&amp;L explain.</td></tr>
+            <tr><td>SOFR/OIS curve</td><td>Overnight indexed swaps / SOFR-linked instruments.</td><td>Secured overnight collateralized discount curve.</td><td>Future extension for derivatives discounting.</td></tr>
           </tbody>
         </table>
       </div>
     </section>
 
-    <section class="panel">
-      <h2>Why Curves Differ</h2>
-      <p>The government Treasury curve and a WRDS/on-the-run curve can differ because they are not the same curve. The Treasury par yield curve is a par curve, while WRDS <strong>TDYLD</strong> is an individual issue yield to maturity. Fitted zero rates are not YTMs; they are discount rates by maturity.</p>
-      <p>On-the-run bonds can trade rich because of liquidity and special repo demand, lowering their yields. Government par curves are smoothed/interpolated benchmark curves; individual issue curves are based on specific securities. Timing, quote source, price flags, clean versus dirty price treatment, bill/note/bond conventions, TIPS/callable filtering, and maturity mapping can all move the result.</p>
-      <p class="note">If the on-the-run curve differs from the government curve by unusually large amounts, check date filtering, maturity mapping, percent versus decimal scaling, clean versus dirty price, coupon and maturity fields, TIPS/callable filtering, and whether fallback synthetic data were used.</p>
-    </section>
-
-    <section class="method-list">
-      <article class="method-section" id="data-conventions">
-        <h2>1. Data Conventions</h2>
-        <p>The Phase 1 demo uses synthetic curves and positions. External Treasury files can be mapped from common CRSP-style fields such as coupon, maturity date, bid, ask, nominal price, accrued interest, yield, and duration.</p>
-        <div class="formula">mid_price = (bid + ask) / 2
-dirty_price = clean_price + accrued_interest
-tau = days_between(valuation_date, cashflow_date) / 365.0</div>
-        <p>Rates are stored as decimals, so 4.25 percent is 0.0425. Treasury prices are quoted per 100 face value, while portfolio PV is reported in currency units after multiplying by face or notional.</p>
-      </article>
-
-      <article class="method-section" id="dirty-price">
-        <h2>2. Dirty Price</h2>
-        <p>Clean price excludes accrued coupon. Dirty price is the cash amount used for settlement and valuation because it includes coupon earned since the previous coupon date.</p>
-        <div class="formula">dirty_price = TDNOMPRC + TDACCINT
-P_dirty = P_clean + accrued_interest</div>
-      </article>
-
-      <article class="method-section" id="discount-factors-zero-rates">
-        <h2>3. Discount Factors And Zero Rates</h2>
-        <p>The demo discounts cash flows with continuously compounded zero rates. The zero curve is interpolated by maturity.</p>
-        <div class="formula">DF(T) = exp(-z(T) * T)
-z(T) = -ln(DF(T)) / T</div>
-      </article>
-
-      <article class="method-section" id="bond-pricing">
-        <h2>4. Bond Pricing</h2>
-        <p>A fixed-rate bond is valued as the sum of discounted coupons plus discounted principal.</p>
-        <div class="formula">coupon_cashflow = face * coupon_rate / frequency
-P = sum_i cashflow_i * DF(T_i)</div>
-        <p>For portfolio reporting, instrument PV is multiplied by the position quantity.</p>
-      </article>
-
-      <article class="method-section" id="yield-to-maturity">
-        <h2>5. Yield To Maturity</h2>
-        <p>Yield to maturity is the single constant yield that reproduces the dirty price from the scheduled bond cash flows. In CRSP, <strong>TDYLD</strong> is the promised daily yield field used for observed YTM diagnostics. It is not a zero rate.</p>
-        <div class="formula">P_dirty = sum_i cashflow_i / (1 + y / frequency)^(frequency * T_i)</div>
-        <p>The solver searches for the yield <strong>y</strong> that makes model price equal observed dirty price.</p>
-      </article>
-
-      <article class="method-section" id="zero-curve-fitting">
-        <h2>6. Zero Curve Fitting</h2>
-        <p>The core demo reads supplied zero-rate nodes. The FOMC event-study diagnostics separate observed YTM from an approximate fitted zero curve. In a production Treasury calibration, zero rates are fit so model dirty prices approximately match observed dirty prices from selected cashflow instruments.</p>
-        <div class="formula">min_z sum_j weight_j * (P_model_j(z) - P_market_j)^2</div>
-        <p>Short bills, notes, and bonds should be filtered for usable quotes, valid maturities, and consistent accrued-interest treatment before fitting.</p>
-      </article>
-
-      <article class="method-section" id="forward-rates">
-        <h2>7. Forward Rates</h2>
-        <p>A forward rate is the implied rate between two maturities from the zero curve.</p>
-        <div class="formula">f(T1,T2) = (z(T2) * T2 - z(T1) * T1) / (T2 - T1)</div>
-        <p>Forward rates help separate carry, rolldown, and expected path information from the spot zero curve.</p>
-      </article>
-
-      <article class="method-section" id="dv01">
-        <h2>8. DV01</h2>
-        <p>DV01 is the approximate change in value for a one basis point decrease in rates. The project uses the market convention that positive DV01 gains when rates fall.</p>
-        <div class="formula">DV01 = (P_down_1bp - P_up_1bp) / 2</div>
-      </article>
-
-      <article class="method-section" id="key-rate-dv01">
-        <h2>9. Key-Rate DV01</h2>
-        <p>Key-rate DV01 localizes rate sensitivity by bumping one curve pillar at a time, such as 2Y, 5Y, 10Y, or 30Y.</p>
-        <div class="formula">KRDV01_k = (P(curve with node k down 1bp) - P(curve with node k up 1bp)) / 2</div>
-        <p>The Phase 1 implementation uses nearest-pillar bumps rather than a production triangular bucket scheme.</p>
-      </article>
-
-      <article class="method-section" id="convexity">
-        <h2>10. Convexity</h2>
-        <p>Convexity captures the second-order price response to rate moves.</p>
-        <div class="formula">convexity = (P_down + P_up - 2 * P_0) / (P_0 * dy^2)</div>
-        <p>It is useful when moves are large enough that DV01 alone misses curvature in the price-yield relationship.</p>
-      </article>
-
-      <article class="method-section" id="pnl-explain">
-        <h2>11. P&amp;L Explain</h2>
-        <p>P&amp;L explain compares full revaluation to first-order attribution from curve moves and risk sensitivities.</p>
-        <div class="formula">full_reval_pnl = PV_today - PV_yesterday
+    <section class="section method-list">
+      <article class="method-section"><h2>Dirty Price</h2><p>Cashflow pricing uses full price, not clean quote alone.</p><div class="formula">dirty_price = TDNOMPRC + TDACCINT
+P_dirty = P_clean + accrued_interest</div></article>
+      <article class="method-section"><h2>Discount Factor</h2><p>The demo uses continuously compounded zero rates for simple transparent discounting.</p><div class="formula">DF(T) = exp(-z(T) * T)
+z(T) = -ln(DF(T)) / T</div></article>
+      <article class="method-section"><h2>Bond Pricing</h2><p>A fixed-rate bond is the present value of coupons plus principal.</p><div class="formula">coupon_cashflow = face * coupon_rate / frequency
+P = sum_i cashflow_i * DF(T_i)</div></article>
+      <article class="method-section"><h2>Yield To Maturity</h2><p>Yield to maturity is the single constant yield that reproduces the dirty price from scheduled cashflows. CRSP <code>TDYLD</code> is used for observed YTM diagnostics; it is not a zero rate.</p><div class="formula">P_dirty = sum_i cashflow_i / (1 + y / frequency)^(frequency * T_i)</div></article>
+      <article class="method-section"><h2>Zero Curve Fitting</h2><p>Fitted zero rates are discount rates by maturity. A Treasury calibration fits them so model dirty prices approximately match observed dirty prices from selected issues.</p><div class="formula">min_z sum_j weight_j * (P_model_j(z) - P_market_j)^2</div></article>
+      <article class="method-section"><h2>DV01</h2><p>Positive DV01 means the position gains when rates fall by one basis point.</p><div class="formula">DV01 = (P_down_1bp - P_up_1bp) / 2</div></article>
+      <article class="method-section"><h2>Key-Rate DV01</h2><p>Key-rate DV01 bumps one curve pillar at a time to localize maturity exposure.</p><div class="formula">KRDV01_k = (P(node k down 1bp) - P(node k up 1bp)) / 2</div></article>
+      <article class="method-section"><h2>Convexity</h2><p>Convexity captures the second-order price response that DV01 misses for larger rate moves.</p><div class="formula">convexity = (P_down + P_up - 2 * P_0) / (P_0 * dy^2)</div></article>
+      <article class="method-section"><h2>P&amp;L Explain</h2><p>Full revaluation is compared with first-order curve-risk attribution.</p><div class="formula">full_reval_pnl = PV_today - PV_yesterday
 rates_pnl_approx = sum_k KRDV01_k * (-delta_y_k_bp)
-residual = full_reval_pnl - rates_pnl_approx</div>
-        <p>The residual collects convexity, interpolation effects, simplified carry, and model approximation error.</p>
-      </article>
-
-      <article class="method-section" id="curve-move-bp">
-        <h2>12. Curve Move In Basis Points</h2>
-        <p>Curve moves are shown in basis points so maturity-by-maturity changes are easy to scan.</p>
-        <div class="formula">delta_y_bp(T) = (z_today(T) - z_yesterday(T)) * 10000</div>
-      </article>
-
-      <article class="method-section" id="level-slope-curvature">
-        <h2>13. Level, Slope, And Curvature</h2>
-        <p>Simple curve factors summarize broad shape changes.</p>
-        <div class="formula">level = average(z_2Y, z_5Y, z_10Y, z_30Y)
+residual = full_reval_pnl - rates_pnl_approx</div></article>
+      <article class="method-section"><h2>Forward Rates</h2><p>Forwards are implied rates between two zero-curve maturities.</p><div class="formula">f(T1,T2) = (z(T2) * T2 - z(T1) * T1) / (T2 - T1)</div></article>
+      <article class="method-section"><h2>Curve Move In Basis Points</h2><p>Basis-point curve moves make maturity-by-maturity shifts easy to scan.</p><div class="formula">delta_y_bp(T) = (z_today(T) - z_yesterday(T)) * 10000</div></article>
+      <article class="method-section"><h2>Level, Slope, Curvature</h2><p>Curve-factor diagnostics summarize broad shape changes.</p><div class="formula">level = average(z_2Y, z_5Y, z_10Y, z_30Y)
 slope = z_10Y - z_2Y
-curvature = 2 * z_5Y - z_2Y - z_10Y</div>
-        <p>These factors are compact diagnostics, not a replacement for full key-rate risk.</p>
-      </article>
-
-      <article class="method-section" id="zero-rate-surface">
-        <h2>14. 3D Zero-Rate Surface</h2>
-        <p>A 3D zero-rate surface plots zero rates by observation date and maturity. It helps show how the curve evolves through time.</p>
-        <div class="formula">surface point = (valuation_date, maturity, z(valuation_date, maturity))</div>
-        <p>For sparse Treasury data, the surface should be built from fitted or interpolated zero curves on each observation date.</p>
-      </article>
-
-      <article class="method-section" id="forward-rate-surface">
-        <h2>15. 3D Forward-Rate Surface</h2>
-        <p>A forward-rate surface applies the forward-rate formula across dates and maturity intervals.</p>
-        <div class="formula">surface point = (valuation_date, start_maturity, f(T1,T2))</div>
-        <p>This view is useful for spotting changes in implied future rate paths.</p>
-      </article>
-
-      <article class="method-section" id="swap-pricing">
-        <h2>16. Swap Pricing</h2>
-        <p>The vanilla swap module uses a simplified single-curve framework. The fixed leg is discounted scheduled fixed coupons; the floating leg is approximated from discount factors.</p>
-        <div class="formula">PV_fixed = notional * fixed_rate * sum_i accrual_i * DF(T_i)
+curvature = 2 * z_5Y - z_2Y - z_10Y</div></article>
+      <article class="method-section"><h2>3D Zero-Rate Surface</h2><p>A 3D zero-rate surface plots rates by observation date and maturity so the event window can be read as a curve-shape movie in one static chart.</p><div class="formula">surface point = (valuation_date, maturity, z(date, maturity))</div></article>
+      <article class="method-section"><h2>3D Forward-Rate Surface</h2><p>The forward surface applies the forward-rate formula across dates and adjacent maturity intervals.</p><div class="formula">surface point = (valuation_date, start_maturity, f(T1,T2))</div></article>
+      <article class="method-section"><h2>Swap Pricing</h2><p>The demo keeps a simplified single-curve swap example. Real collateralized derivatives generally use SOFR/OIS discounting, which is a future extension.</p><div class="formula">PV_fixed = notional * fixed_rate * sum_i accrual_i * DF(T_i)
 PV_float = notional * (1 - DF(T_n))
-PV_payer_fixed = PV_float - PV_fixed</div>
-        <p>Receiver-fixed swaps use the opposite sign.</p>
-        <p>For realistic collateralized derivatives discounting, banks typically use SOFR/OIS curves rather than Treasury curves. SOFR/OIS discounting is a future extension for this project.</p>
-      </article>
-
-      <article class="method-section" id="execution-analytics">
-        <h2>17. Execution Analytics</h2>
-        <p>The execution module reports simple transaction-cost analytics for a deterministic hedge order.</p>
-        <div class="formula">VWAP = sum_i fill_price_i * fill_qty_i / sum_i fill_qty_i
+PV_payer_fixed = PV_float - PV_fixed</div></article>
+      <article class="method-section"><h2>Execution Analytics</h2><p>The TCA module reports fill quality and simple transaction-cost measures for a deterministic hedge order.</p><div class="formula">VWAP = sum_i fill_price_i * fill_qty_i / sum_i fill_qty_i
 fill_ratio = filled_qty / order_qty
 slippage = average_fill_price - arrival_price
-shortfall = side_sign * (average_fill_price - arrival_price) * filled_qty</div>
-        <p>For buys, side_sign is positive when paying more hurts performance. For sells, the sign is reversed.</p>
-      </article>
+shortfall = side_sign * (average_fill_price - arrival_price) * filled_qty</div></article>
+    </section>
 
-      <article class="method-section" id="limitations">
-        <h2>18. Limitations</h2>
-        <p>The project is an interview-ready simulation, not a production valuation stack. Important simplifications include synthetic data, simplified calendars and accruals, single-curve swap pricing, nearest-pillar key-rate bumps, stylized futures-to-yield mapping, and aggregate-depth execution replay.</p>
-        <p>Production extensions would add robust Treasury bootstrapping, OIS or SOFR discounting, curve instruments with market conventions, spread risk, stress testing, hedge optimization, and deeper market-data validation.</p>
-      </article>
+    <section class="section grid two">
+      <div class="card"><h2>YTM versus zero rates</h2><p><code>TDYLD</code> is CRSP's promised daily yield and is useful for observed YTM diagnostics. It is not a zero rate. A fitted zero curve estimates discount rates that approximately reprice selected dirty prices and cashflows.</p></div>
+      <div class="card"><h2>Limitations</h2><p>The system is a simplified analytics engine, not a production valuation library. Calendars, market conventions, collateral discounting, spread risk, and robust curve bootstrapping are intentionally scoped as future extensions.</p></div>
     </section>
   </main>
 
-  <footer>
-    <p>Methodology page for the deployed GitHub Pages site.</p>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div><strong>Fixed Income Desk Quant Platform</strong><br>Static GitHub Pages demo generated from a C++/Python pipeline.</div>
+      <a href="https://github.com/xiaoxu-zhao/Fixed-Income-Desk-Quant-Platform">Source code</a>
+    </div>
   </footer>
 </body>
 </html>

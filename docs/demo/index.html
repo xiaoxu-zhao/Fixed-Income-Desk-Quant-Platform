@@ -3,85 +3,106 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Main Demo | Fixed Income Desk Quant Platform</title>
+  <title>Phase 1 Desk-Day Demo | Fixed Income Desk Quant Platform</title>
   <link rel="stylesheet" href="../assets/style.css">
 </head>
 <body>
   <header class="site-header">
     <nav class="nav" aria-label="Primary navigation">
-      <a class="brand" href="../">Fixed Income Desk Quant Platform</a>
+      <a class="brand" href="../"><span class="brand-mark">FI</span>Fixed Income Desk Quant</a>
       <div class="nav-links">
         <a href="../">Home</a>
         <a href="./" aria-current="page">Main Demo</a>
         <a href="../event-study/">Event Study</a>
         <a href="../methodology/">Methodology</a>
-        <a href="https://github.com/xiaoxu-zhao/Fixed-Income-Desk-Quant-Platform">GitHub Repository</a>
+        <a href="https://github.com/xiaoxu-zhao/Fixed-Income-Desk-Quant-Platform">GitHub</a>
       </div>
     </nav>
   </header>
 
   <main>
-    <section class="intro">
+    <section class="hero compact">
       <div>
-        <p class="eyebrow">Generated dashboard</p>
-        <h1>Main Demo</h1>
-        <p class="lead">The demo page is rebuilt from the deterministic full-desk run. It publishes the static dashboard, CSV reports, plots, and desk summary used by the project.</p>
+        <span class="badge success">Generated desk report</span>
+        <h1>Phase 1 Desk-Day Demo</h1>
+        <p class="lead">This page shows deterministic outputs from the C++/Python analytics pipeline: valuation, risk, P&amp;L explain, intraday replay, and execution quality.</p>
         <div class="actions">
           <a class="button" href="dashboard.html">Open Raw Dashboard</a>
           <a class="button secondary" href="../methodology/">Read Methodology</a>
         </div>
       </div>
-      <div class="panel">
-        <h2>Output Files</h2>
-        <ul class="data-list">
-          <li><a href="daily_report.csv">daily_report.csv</a></li>
-          <li><a href="instrument_pv.csv">instrument_pv.csv</a></li>
-          <li><a href="keyrate_dv01.csv">keyrate_dv01.csv</a></li>
-          <li><a href="pnl_explain.csv">pnl_explain.csv</a></li>
-          <li><a href="execution_report.csv">execution_report.csv</a></li>
-          <li><a href="desk_summary.md">desk_summary.md</a></li>
-        </ul>
+      <div class="terminal-card" aria-label="Generated output files">
+        <div class="terminal-row"><span>pipeline</span><strong>C++ engine -> CSV -> Python plots</strong></div>
+        <div class="terminal-row"><span>mode</span><strong>static deterministic demo</strong></div>
+        <div class="terminal-row"><span>data</span><strong>synthetic desk-day inputs</strong></div>
+        <div class="terminal-row"><span>deployment</span><strong>GitHub Pages artifact</strong></div>
       </div>
     </section>
 
-    <section>
-      <h2>Dashboard</h2>
-      <iframe class="embed" src="dashboard.html" title="Generated fixed income desk quant dashboard"></iframe>
+    <section class="section">
+      <div class="metric-grid">
+        <div class="metric"><span class="label">Portfolio PV</span><strong>CSV</strong><span>instrument_pv.csv</span></div>
+        <div class="metric"><span class="label">Daily P&amp;L</span><strong>CSV</strong><span>pnl_explain.csv</span></div>
+        <div class="metric"><span class="label">Total DV01</span><strong>Report</strong><span>daily_report.csv</span></div>
+        <div class="metric"><span class="label">Largest key-rate risk</span><strong>Chart</strong><span>keyrate_dv01.png</span></div>
+        <div class="metric"><span class="label">Execution slippage</span><strong>TCA</strong><span>execution_report.csv</span></div>
+        <div class="metric"><span class="label">Fill ratio</span><strong>TCA</strong><span>execution_report.csv</span></div>
+      </div>
     </section>
 
-    <section>
-      <h2>Plot Gallery</h2>
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">Plot gallery</span>
+          <h2>Desk outputs</h2>
+        </div>
+        <p>Each chart is generated from the same deterministic run as the CSV reports. Open any chart in a new tab for a larger view.</p>
+      </div>
       <div class="plot-grid">
-        <figure>
-          <img src="plots/yield_curves.png" alt="Yesterday and today zero curves">
-          <figcaption>Yield curves</figcaption>
-        </figure>
-        <figure>
-          <img src="plots/curve_move_bp.png" alt="Curve move in basis points by maturity">
-          <figcaption>Curve move in basis points</figcaption>
-        </figure>
-        <figure>
-          <img src="plots/keyrate_dv01.png" alt="Key-rate DV01 by pillar">
-          <figcaption>Key-rate DV01</figcaption>
-        </figure>
-        <figure>
-          <img src="plots/pnl_explain.png" alt="P and L explain chart">
-          <figcaption>P&amp;L explain</figcaption>
-        </figure>
-        <figure>
-          <img src="plots/intraday_pnl.png" alt="Intraday P and L path">
-          <figcaption>Intraday P&amp;L</figcaption>
-        </figure>
-        <figure>
-          <img src="plots/execution_report.png" alt="Execution analytics chart">
-          <figcaption>Execution analytics</figcaption>
-        </figure>
+        <figure class="chart-card"><a href="plots/yield_curves.png" target="_blank" rel="noopener"><img src="plots/yield_curves.png" alt="Yesterday versus today zero curves"></a><figcaption>Yield curves: pre/post synthetic Treasury zero curve levels.</figcaption></figure>
+        <figure class="chart-card"><a href="plots/curve_move_bp.png" target="_blank" rel="noopener"><img src="plots/curve_move_bp.png" alt="Curve move in basis points by maturity"></a><figcaption>Curve move in basis points: maturity-by-maturity shift.</figcaption></figure>
+        <figure class="chart-card"><a href="plots/keyrate_dv01.png" target="_blank" rel="noopener"><img src="plots/keyrate_dv01.png" alt="Key-rate DV01 by pillar"></a><figcaption>Key-rate DV01: risk concentration across curve pillars.</figcaption></figure>
+        <figure class="chart-card"><a href="plots/pnl_explain.png" target="_blank" rel="noopener"><img src="plots/pnl_explain.png" alt="P and L explain chart"></a><figcaption>P&amp;L explain: full revaluation versus approximate attribution.</figcaption></figure>
+        <figure class="chart-card"><a href="plots/intraday_pnl.png" target="_blank" rel="noopener"><img src="plots/intraday_pnl.png" alt="Intraday portfolio P and L path"></a><figcaption>Intraday P&amp;L: futures-implied curve shocks mapped into portfolio risk.</figcaption></figure>
+        <figure class="chart-card"><a href="plots/execution_report.png" target="_blank" rel="noopener"><img src="plots/execution_report.png" alt="Execution analytics chart"></a><figcaption>Execution analytics: slippage, fill quality, and execution cost diagnostics.</figcaption></figure>
       </div>
+    </section>
+
+    <section class="section grid two">
+      <div class="card">
+        <span class="eyebrow">Generated files</span>
+        <h2>CSV and report artifacts</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>File</th><th>Role</th></tr></thead>
+            <tbody>
+              <tr><td><a href="daily_report.csv">daily_report.csv</a></td><td>Desk-day market and risk summary.</td></tr>
+              <tr><td><a href="instrument_pv.csv">instrument_pv.csv</a></td><td>Instrument-level valuation output.</td></tr>
+              <tr><td><a href="keyrate_dv01.csv">keyrate_dv01.csv</a></td><td>Curve pillar sensitivity.</td></tr>
+              <tr><td><a href="pnl_explain.csv">pnl_explain.csv</a></td><td>Rates P&amp;L attribution.</td></tr>
+              <tr><td><a href="execution_report.csv">execution_report.csv</a></td><td>Execution quality metrics.</td></tr>
+              <tr><td><a href="desk_summary.md">desk_summary.md</a></td><td>Generated desk note.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <span class="eyebrow">Embedded dashboard</span>
+        <h2>Raw generated HTML</h2>
+        <p>The frame below is the plain dashboard generated by <code>python/dashboard.py --static</code>. The surrounding page adds portfolio-site polish without changing the raw report.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <iframe class="embed" src="dashboard.html" title="Generated fixed income desk quant dashboard"></iframe>
     </section>
   </main>
 
-  <footer>
-    <p>Generated by scripts/run_full_demo.sh and scripts/build_pages_site.sh.</p>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div><strong>Fixed Income Desk Quant Platform</strong><br>Static GitHub Pages demo generated from a C++/Python pipeline.</div>
+      <a href="https://github.com/xiaoxu-zhao/Fixed-Income-Desk-Quant-Platform">Source code</a>
+    </div>
   </footer>
 </body>
 </html>

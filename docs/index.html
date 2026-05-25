@@ -9,58 +9,97 @@
 <body>
   <header class="site-header">
     <nav class="nav" aria-label="Primary navigation">
-      <a class="brand" href="./">Fixed Income Desk Quant Platform</a>
+      <a class="brand" href="./"><span class="brand-mark">FI</span>Fixed Income Desk Quant</a>
       <div class="nav-links">
         <a href="./" aria-current="page">Home</a>
         <a href="demo/">Main Demo</a>
         <a href="event-study/">Event Study</a>
         <a href="methodology/">Methodology</a>
-        <a href="https://github.com/xiaoxu-zhao/Fixed-Income-Desk-Quant-Platform">GitHub Repository</a>
+        <a href="https://github.com/xiaoxu-zhao/Fixed-Income-Desk-Quant-Platform">GitHub</a>
       </div>
     </nav>
   </header>
 
   <main>
-    <section class="intro">
+    <section class="hero">
       <div>
-        <p class="eyebrow">Rates analytics, risk, and execution</p>
+        <span class="badge success">Phase 1 implemented</span>
         <h1>Fixed Income Desk Quant Platform</h1>
-        <p class="lead">A deterministic front-office rates desk simulation that connects Treasury curve inputs, bond and swap pricing, portfolio risk, P&amp;L explain, intraday futures replay, and execution analytics.</p>
+        <p class="lead">A C++/Python front-office fixed-income desk quant simulator for pricing, risk, P&amp;L explain, execution analytics, and event-study visualization.</p>
         <div class="actions">
           <a class="button" href="demo/">Open Main Demo</a>
+          <a class="button secondary" href="event-study/">View FOMC Event Study</a>
           <a class="button secondary" href="methodology/">Read Methodology</a>
+          <a class="button secondary" href="https://github.com/xiaoxu-zhao/Fixed-Income-Desk-Quant-Platform">View Source Code</a>
         </div>
       </div>
-      <div class="panel">
-        <h2>What The Site Publishes</h2>
-        <p>The deployed site is built from generated CSV reports, PNG plots, and a static dashboard. The methodology page documents the formulas behind the generated risk, valuation, curve, and execution measures.</p>
-        <ul class="data-list">
-          <li>Instrument PV, DV01, convexity, and key-rate DV01.</li>
-          <li>P&amp;L explain from curve moves and full revaluation.</li>
-          <li>Intraday market replay and execution quality metrics.</li>
-          <li>Static pages deployable through GitHub Pages.</li>
-        </ul>
+      <figure class="chart-card">
+        <a href="demo/plots/yield_curves.png" target="_blank" rel="noopener">
+          <img src="demo/plots/yield_curves.png" alt="Generated yield curve chart from the desk-day demo">
+        </a>
+        <figcaption>Generated curve output from the static C++/Python desk-day pipeline.</figcaption>
+      </figure>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">Project surface</span>
+          <h2>What the simulator covers</h2>
+        </div>
+        <p>A compact but technical rates workflow: deterministic inputs, explicit analytics, reproducible reports, and static visual outputs.</p>
+      </div>
+      <div class="grid">
+        <div class="card feature-card"><h3>Rates Pricing and Risk</h3><p>Bond and swap valuation, DV01, convexity, and key-rate risk on transparent curve inputs.</p></div>
+        <div class="card feature-card"><h3>P&amp;L Explain</h3><p>Full revaluation compared with first-order rates attribution and residual diagnostics.</p></div>
+        <div class="card feature-card"><h3>Execution Analytics</h3><p>Arrival, VWAP, TWAP, slippage, fill ratio, and shortfall from a deterministic hedge order.</p></div>
+        <div class="card feature-card"><h3>FOMC Curve Event Study</h3><p>June 2022 Treasury curve case study with pre/post moves and 3D zero/forward surfaces.</p></div>
+        <div class="card feature-card"><h3>C++ Analytics Backend</h3><p>Deterministic pricing, risk, order-book, and execution logic in a C++17 engine.</p></div>
+        <div class="card feature-card"><h3>Python Visualization Layer</h3><p>CSV-driven reports, matplotlib plots, dashboard generation, and GitHub Pages deployment.</p></div>
       </div>
     </section>
 
-    <section class="grid" aria-label="Project areas">
-      <div class="metric">
-        <strong>Pricing</strong>
-        <span>Bond cash flows, zero-rate discounting, yield-to-maturity solving, and vanilla swap valuation.</span>
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">Architecture</span>
+          <h2>Static desk analytics pipeline</h2>
+        </div>
       </div>
-      <div class="metric">
-        <strong>Risk</strong>
-        <span>DV01, pillar key-rate DV01, convexity, and curve shape measures for level, slope, and curvature.</span>
+      <div class="architecture" aria-label="Project architecture flow">
+        <div class="flow-step">Market Data</div>
+        <div class="flow-step">C++ Pricing/Risk Engine</div>
+        <div class="flow-step">CSV Reports</div>
+        <div class="flow-step">Python Plots</div>
+        <div class="flow-step">Static Dashboard</div>
       </div>
-      <div class="metric">
-        <strong>Execution</strong>
-        <span>Order-book replay, arrival price, VWAP, TWAP, fill ratio, slippage, and shortfall.</span>
+    </section>
+
+    <section class="section grid two">
+      <div class="card">
+        <span class="eyebrow">Roadmap</span>
+        <h2>Planned extensions</h2>
+        <ul class="data-list">
+          <li>Phase 2: Corporate bond credit analytics.</li>
+          <li>Phase 3: Scenario/stress testing and hedge optimizer.</li>
+          <li>Phase 4: Enhanced TCA and market data validation.</li>
+          <li>Phase 5: pybind11 integration.</li>
+          <li>Phase 6: AI credit research assistant.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="eyebrow">Scope note</span>
+        <h2>Honest project boundary</h2>
+        <p class="disclaimer">This is a portfolio simulation, not a production trading system or live valuation service. The site publishes static GitHub Pages artifacts generated from a simplified C++/Python analytics pipeline.</p>
       </div>
     </section>
   </main>
 
-  <footer>
-    <p>All market data in the demo is synthetic or locally provided for methodology illustration.</p>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div><strong>Fixed Income Desk Quant Platform</strong><br>Static GitHub Pages demo generated from a C++/Python pipeline.</div>
+      <a href="https://github.com/xiaoxu-zhao/Fixed-Income-Desk-Quant-Platform">Source code</a>
+    </div>
   </footer>
 </body>
 </html>

@@ -3,190 +3,173 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>June 2022 FOMC Event Study | Fixed Income Desk Quant Platform</title>
+  <title>June 2022 FOMC Treasury Curve Event Study | Fixed Income Desk Quant Platform</title>
   <link rel="stylesheet" href="../assets/style.css">
 </head>
 <body>
   <header class="site-header">
     <nav class="nav" aria-label="Primary navigation">
-      <a class="brand" href="../">Fixed Income Desk Quant Platform</a>
+      <a class="brand" href="../"><span class="brand-mark">FI</span>Fixed Income Desk Quant</a>
       <div class="nav-links">
         <a href="../">Home</a>
         <a href="../demo/">Main Demo</a>
         <a href="./" aria-current="page">Event Study</a>
         <a href="../methodology/">Methodology</a>
-        <a href="https://github.com/xiaoxu-zhao/Fixed-Income-Desk-Quant-Platform">GitHub Repository</a>
+        <a href="https://github.com/xiaoxu-zhao/Fixed-Income-Desk-Quant-Platform">GitHub</a>
       </div>
     </nav>
   </header>
 
   <main>
-    <section class="intro">
+    <section class="hero compact">
       <div>
-        <p class="eyebrow">June 2022 FOMC</p>
-        <h1>Treasury Curve Event Study</h1>
-        <p class="lead">A static case study around the June 15, 2022 FOMC meeting, using pre-event and post-event Treasury curve snapshots plus 3D zero-rate and forward-rate surfaces.</p>
+        <span class="badge warning">June 2022 FOMC</span>
+        <h1>June 2022 FOMC Treasury Curve Event Study</h1>
+        <p class="lead">A curve-shape analysis around the June 15, 2022 FOMC 75 bp hike, using static Treasury benchmark diagnostics, 3D surfaces, and curve-factor decomposition.</p>
         <div class="actions">
-          <a class="button" href="../methodology/">Read Methodology</a>
+          <a class="button" href="#charts">View Charts</a>
+          <a class="button secondary" href="../methodology/">Read Methodology</a>
           <a class="button secondary" href="../demo/">Open Main Demo</a>
         </div>
       </div>
-      <div class="panel">
-        <h2>Event Context</h2>
-        <p>Event date: <strong>2022-06-15</strong>. Pre-event curve date: <strong>2022-06-14</strong>. Post-event curve date: <strong>2022-06-16</strong>. After the meeting, the federal funds target range was <strong>1.50% to 1.75%</strong>.</p>
-        <p>The Treasury curve is a liquid USD government benchmark and an approximate risk-free curve for rates-risk visualization. In practice, banks often use SOFR/OIS curves for collateralized derivatives discounting, while Treasury curves are widely used for government-bond pricing, relative-value analysis, key-rate risk, and spread measurement.</p>
+      <div class="grid two">
+        <div class="metric"><span class="label">Event date</span><strong>2022-06-15</strong><span>FOMC decision day.</span></div>
+        <div class="metric"><span class="label">Window</span><strong>Jun 1-28</strong><span>Observation range.</span></div>
+        <div class="metric"><span class="label">Pre/Post</span><strong>Jun 14 vs Jun 16</strong><span>Event comparison dates.</span></div>
+        <div class="metric"><span class="label">Target range</span><strong>1.50%-1.75%</strong><span>After the meeting.</span></div>
       </div>
     </section>
 
-    <section class="panel">
-      <h2>Which Curve Is This?</h2>
-      <p>The plotted event-study curve is the fitted zero curve when private on-the-run Treasury prices are available locally. The fitted zero rates are derived from selected on-the-run issue dirty prices, where dirty price equals <strong>TDNOMPRC + TDACCINT</strong>. The observed on-the-run YTM curve is also built for diagnostics from <strong>TDYLD</strong>. On public GitHub Pages, where private WRDS/CRSP data are unavailable, the site uses deterministic fallback curves so the page remains reproducible without publishing raw data.</p>
-      <p>This is not the official Treasury par yield curve unless the public government benchmark data are explicitly shown in the comparison chart. It is also not a SOFR/OIS discount curve used by banks for collateralized derivatives.</p>
-      <p>Treasury yields are not perfectly pure risk-free rates. They may include liquidity premium, term premium, safe-haven demand, inflation expectations, supply/demand effects, and tax or regulatory effects. On-the-run Treasuries are very liquid benchmark securities, but they can trade rich because of liquidity and specialness, lowering their yields relative to other benchmark curves.</p>
+    <section class="section grid two">
+      <div class="card">
+        <span class="badge warning">Public Pages data mode</span>
+        <h2>Synthetic fallback on deployment</h2>
+        <p>The public GitHub Pages build uses deterministic fallback curves because private WRDS/CRSP quotation rows are not committed. Local rebuilds use private quotation data when <code>treasuries.csv</code> is available.</p>
+      </div>
+      <div class="card">
+        <span class="eyebrow">Curve scope</span>
+        <h2>On-the-run Treasury benchmark</h2>
+        <p>The on-the-run Treasury curve is used as a liquid USD government benchmark and approximate risk-free curve for rates-risk visualization. It is not the same as a SOFR/OIS derivatives discount curve.</p>
+      </div>
     </section>
 
-    <section>
-      <h2>Curve Methodology Comparison</h2>
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">Curve terminology</span>
+          <h2>Which curve is this?</h2>
+        </div>
+        <p>The plotted curve is either the on-the-run observed YTM curve or the fitted zero curve, depending on available inputs. It is not the official Treasury par yield curve unless the public government benchmark series is shown separately.</p>
+      </div>
       <div class="table-wrap">
         <table>
-          <thead>
-            <tr>
-              <th>Curve type</th>
-              <th>Built from</th>
-              <th>Meaning</th>
-              <th>Used for in this project</th>
-            </tr>
-          </thead>
+          <thead><tr><th>Curve type</th><th>Built from</th><th>Meaning</th><th>Used for in this project</th></tr></thead>
           <tbody>
-            <tr>
-              <td>Treasury par yield curve</td>
-              <td>Official government par yield data.</td>
-              <td>Coupon rate that would price a hypothetical Treasury at par for each maturity.</td>
-              <td>Public benchmark comparison.</td>
-            </tr>
-            <tr>
-              <td>On-the-run observed YTM curve</td>
-              <td>WRDS/CRSP on-the-run Treasury issue yields or prices.</td>
-              <td>Yield to maturity of the most liquid benchmark issues.</td>
-              <td>Event-study visualization and benchmark curve movement.</td>
-            </tr>
-            <tr>
-              <td>Fitted zero curve</td>
-              <td>Dirty prices and cashflows.</td>
-              <td>Discount rates by maturity that approximately reprice selected Treasury issues.</td>
-              <td>Pricing, DV01, forward-rate calculation, and P&amp;L explain.</td>
-            </tr>
-            <tr>
-              <td>SOFR/OIS curve</td>
-              <td>Overnight indexed swaps / SOFR-linked instruments.</td>
-              <td>Secured overnight collateralized discount curve.</td>
-              <td>Future extension for realistic derivatives discounting.</td>
-            </tr>
+            <tr><td>Treasury par yield curve</td><td>Official government par yield data.</td><td>Coupon rate that would price a hypothetical Treasury at par for each maturity.</td><td>Public benchmark comparison.</td></tr>
+            <tr><td>On-the-run observed YTM curve</td><td>WRDS/CRSP on-the-run Treasury issue yields or prices.</td><td>Yield to maturity of the most liquid benchmark issues.</td><td>Event-study visualization and benchmark curve movement.</td></tr>
+            <tr><td>Fitted zero curve</td><td>Dirty prices and cashflows.</td><td>Discount rates by maturity that approximately reprice selected Treasury issues.</td><td>Pricing, DV01, forward-rate calculation, and P&amp;L explain.</td></tr>
+            <tr><td>SOFR/OIS curve</td><td>Overnight indexed swaps / SOFR-linked instruments.</td><td>Secured overnight collateralized discount curve.</td><td>Future extension for realistic derivatives discounting.</td></tr>
           </tbody>
         </table>
       </div>
     </section>
 
-    <section>
-      <h2>Which Columns Are Used?</h2>
-      <p>The local private quotation CSV is transformed into public diagnostics. Raw WRDS/CRSP rows are not published; only derived CSVs and static plots are written under <strong>output/event_study/</strong> and <strong>output/plots/</strong>.</p>
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">Quotation diagnostics</span>
+          <h2>Which columns drive the curve?</h2>
+        </div>
+        <p>Private WRDS/CRSP quotation rows stay local. The website publishes derived diagnostics and plots only.</p>
+      </div>
       <div class="table-wrap">
         <table>
-          <thead>
-            <tr>
-              <th>Field used</th>
-              <th>Source column</th>
-              <th>Used for</th>
-            </tr>
-          </thead>
+          <thead><tr><th>Field used</th><th>Source column</th><th>Used for</th></tr></thead>
           <tbody>
-            <tr><td>clean_price</td><td>TDNOMPRC</td><td>Dirty price and yield diagnostics.</td></tr>
-            <tr><td>accrued_interest</td><td>TDACCINT</td><td>Dirty price.</td></tr>
-            <tr><td>dirty_price</td><td>TDNOMPRC + TDACCINT</td><td>Cashflow pricing and fitted-zero diagnostics.</td></tr>
-            <tr><td>bid / ask</td><td>TDBID / TDASK</td><td>Bid/ask and quote-quality diagnostics.</td></tr>
-            <tr><td>yield_to_maturity</td><td>TDYLD</td><td>Observed on-the-run YTM diagnostics and surface.</td></tr>
-            <tr><td>duration</td><td>TDDURATN</td><td>Risk diagnostics.</td></tr>
-            <tr><td>price_source / price_flag</td><td>TDSOURCR / TDNOMPRC_FLG</td><td>Quote source and data-quality diagnostics.</td></tr>
+            <tr><td>Clean price</td><td>TDNOMPRC</td><td>Dirty price and yield diagnostics.</td></tr>
+            <tr><td>Accrued interest</td><td>TDACCINT</td><td>Dirty price.</td></tr>
+            <tr><td>Dirty price</td><td>TDNOMPRC + TDACCINT</td><td>Cashflow pricing and fitted-zero diagnostics.</td></tr>
+            <tr><td>Bid / ask</td><td>TDBID / TDASK</td><td>Bid/ask and quote-quality diagnostics.</td></tr>
+            <tr><td>Yield to maturity</td><td>TDYLD</td><td>Observed on-the-run YTM diagnostics and surface.</td></tr>
+            <tr><td>Duration</td><td>TDDURATN</td><td>Risk diagnostics.</td></tr>
+            <tr><td>Price source / flag</td><td>TDSOURCR / TDNOMPRC_FLG</td><td>Quote source and data-quality diagnostics.</td></tr>
             <tr><td>TIPS indicator</td><td>TDIDXRATIO</td><td>Exclude TIPS from the nominal Treasury curve.</td></tr>
           </tbody>
         </table>
       </div>
     </section>
 
-    <section>
-      <h2>Pre/Post Treasury Curve</h2>
-      <p>The pre/post chart compares the selected maturity grid immediately before and after the FOMC decision.</p>
-      <figure>
-        <img src="../assets/plots/fomc_zero_curve_pre_post.png" alt="Pre-event and post-event Treasury fitted zero curve">
-        <figcaption>Pre-event and post-event fitted zero curve when private data are available; deterministic fallback on public Pages.</figcaption>
-      </figure>
-    </section>
-
-    <section>
-      <h2>Curve Move In Basis Points</h2>
-      <p>A flat curve-move chart would indicate a parallel shift. Uneven maturity-by-maturity moves indicate a non-parallel shift.</p>
-      <figure>
-        <img src="../assets/plots/fomc_curve_move_bp.png" alt="Treasury curve move by maturity in basis points">
-        <figcaption>Change from June 14 to June 16 by maturity bucket.</figcaption>
-      </figure>
-    </section>
-
-    <section>
-      <h2>3D Curve Surfaces</h2>
-      <div class="plot-grid">
-        <figure>
-          <img src="../assets/plots/fomc_zero_rate_surface_3d.png" alt="Three-dimensional zero-rate surface">
-          <figcaption>Zero-curve surface across June 2022 observation dates and maturities.</figcaption>
-        </figure>
-        <figure>
-          <img src="../assets/plots/fomc_forward_rate_surface_3d.png" alt="Three-dimensional forward-rate surface">
-          <figcaption>Forward-rate surface computed from adjacent maturity buckets.</figcaption>
-        </figure>
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">Formulas</span>
+          <h2>Curve math used in the page</h2>
+        </div>
+      </div>
+      <div class="grid two">
+        <div class="formula-card">
+          <h3>Forward rate</h3>
+          <code>f(t1,t2) = (z(t2)t2 - z(t1)t1) / (t2 - t1)</code>
+        </div>
+        <div class="formula-card">
+          <h3>Curve move</h3>
+          <code>move_bp = (rate_post - rate_pre) * 10000</code>
+        </div>
       </div>
     </section>
 
-    <section>
-      <h2>Level, Slope, And Curvature</h2>
-      <p>Level is the average of the 2Y, 5Y, 10Y, and 30Y points. Slope is 10Y minus 2Y. Curvature is 2 times 5Y minus 2Y minus 10Y.</p>
-      <figure>
-        <img src="../assets/plots/fomc_level_slope_curvature.png" alt="Level slope and curvature around the June 2022 FOMC event">
-        <figcaption>Curve-shape diagnostics around the FOMC event window.</figcaption>
-      </figure>
+    <section id="charts" class="section">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">Charts</span>
+          <h2>Event-study outputs</h2>
+        </div>
+        <p>All images are static PNGs generated by the Python plotting layer and copied into the Pages artifact.</p>
+      </div>
+      <div class="plot-grid">
+        <figure class="chart-card"><a href="../assets/plots/fomc_zero_curve_pre_post.png" target="_blank" rel="noopener"><img src="../assets/plots/fomc_zero_curve_pre_post.png" alt="Pre-event and post-event Treasury zero or yield curve"></a><figcaption>Pre/post zero/yield curve: selected maturity grid around the FOMC event.</figcaption></figure>
+        <figure class="chart-card"><a href="../assets/plots/fomc_curve_move_bp.png" target="_blank" rel="noopener"><img src="../assets/plots/fomc_curve_move_bp.png" alt="Treasury curve move in basis points"></a><figcaption>Curve move in basis points: flat means parallel, uneven means non-parallel.</figcaption></figure>
+        <figure class="chart-card"><a href="../assets/plots/fomc_zero_rate_surface_3d.png" target="_blank" rel="noopener"><img src="../assets/plots/fomc_zero_rate_surface_3d.png" alt="Three-dimensional zero or yield curve surface"></a><figcaption>3D zero/yield surface: curve level and shape across the June window.</figcaption></figure>
+        <figure class="chart-card"><a href="../assets/plots/fomc_forward_rate_surface_3d.png" target="_blank" rel="noopener"><img src="../assets/plots/fomc_forward_rate_surface_3d.png" alt="Three-dimensional forward-rate surface"></a><figcaption>3D forward-rate surface: implied rates between adjacent maturity buckets.</figcaption></figure>
+        <figure class="chart-card"><a href="../assets/plots/fomc_level_slope_curvature.png" target="_blank" rel="noopener"><img src="../assets/plots/fomc_level_slope_curvature.png" alt="Level slope and curvature chart"></a><figcaption>Level, slope, and curvature: compact curve-factor diagnostics.</figcaption></figure>
+        <figure class="chart-card"><a href="../assets/plots/government_vs_on_the_run_curve_comparison.png" target="_blank" rel="noopener"><img src="../assets/plots/government_vs_on_the_run_curve_comparison.png" alt="On-the-run observed YTM and fitted zero curve comparison"></a><figcaption>Benchmark comparison: quotation-derived observed YTM and fitted zero diagnostics.</figcaption></figure>
+      </div>
     </section>
 
-    <section>
-      <h2>Benchmark Comparison</h2>
-      <p>This chart is built from the quotation-derived on-the-run observed YTM curve and fitted zero curve. If a separate public government par-yield file is provided under <strong>data/public/</strong>, the government par curve is added to the same chart; otherwise the public site shows only the quotation-derived on-the-run diagnostics without exposing raw WRDS/CRSP rows.</p>
-      <figure>
-        <img src="../assets/plots/government_vs_on_the_run_curve_comparison.png" alt="Government par yield compared with on-the-run observed YTM and fitted zero curve">
-        <figcaption>On-the-run observed YTM and fitted zero curve on June 14 and June 16, 2022, with government par yield added only when a public benchmark file is available.</figcaption>
-      </figure>
+    <section class="section grid two">
+      <div class="card">
+        <span class="eyebrow">Interpretation</span>
+        <h2>Why non-parallel shifts matter</h2>
+        <p>A flat curve move would imply a parallel shift. Uneven maturity-by-maturity moves imply a non-parallel shift, which matters because a portfolio can be hedged against parallel DV01 but still lose money from slope or curvature exposure.</p>
+        <p>Forward rates help show how implied future rate expectations changed across maturity buckets, not just how spot curve points moved.</p>
+      </div>
+      <div class="card">
+        <span class="eyebrow">Curve terminology</span>
+        <h2>What this is not</h2>
+        <p>This is not a live trading system, not the official Treasury par yield curve unless a public government benchmark file is supplied, and not a SOFR/OIS discount curve used for collateralized derivatives.</p>
+      </div>
     </section>
 
-    <section class="panel">
-      <h2>Why Can This Differ From The Government Treasury Curve?</h2>
-      <ol class="data-list">
-        <li>The Treasury par yield curve is a par curve; WRDS <strong>TDYLD</strong> is individual issue yield to maturity.</li>
-        <li>Fitted zero rates are not YTMs; they are discount rates by maturity.</li>
-        <li>On-the-run bonds can trade rich because of liquidity and special repo demand, lowering their yields.</li>
-        <li>Government par curves are smoothed/interpolated benchmark curves; individual issue curves are based on specific securities.</li>
-        <li>Timing and quote source may differ. WRDS/CRSP fields include <strong>TDSOURCR</strong> and price flags.</li>
-        <li>Clean price vs dirty price matters. Cashflow pricing should use dirty price = <strong>TDNOMPRC + TDACCINT</strong>.</li>
-        <li>Bills, notes, and bonds can use different yield conventions.</li>
-        <li>Column mapping errors can happen if maturities are inferred by position instead of explicit column names.</li>
-      </ol>
-      <p class="note">If the on-the-run curve differs from the government curve by unusually large amounts, check date filtering, maturity mapping, percent vs decimal scaling, clean vs dirty price, coupon and maturity fields, TIPS/callable filtering, and whether fallback synthetic data were used.</p>
-    </section>
-
-    <section class="panel">
-      <h2>Desk-Quant Interpretation</h2>
-      <p>The case study frames the meeting as a rates-risk shock rather than a single-price event. The pre/post curve chart shows how the curve level changed, while the basis-point move chart separates parallel from non-parallel behavior. The 3D surfaces show whether the event shift was isolated to one date or part of a broader June curve repricing.</p>
-      <p>For desk risk, the non-parallel pattern matters because a portfolio with concentrated 2Y, 5Y, 10Y, or 30Y key-rate exposure can gain or lose even when the headline level move looks modest. The forward surface adds another lens by showing how the event changed implied rates between maturity buckets.</p>
+    <section class="section">
+      <details>
+        <summary>Why can this differ from the government Treasury curve?</summary>
+        <ol class="data-list">
+          <li>Treasury par yield is a par curve; WRDS <code>TDYLD</code> is individual issue yield to maturity.</li>
+          <li>Fitted zero rates are not YTMs; they are discount rates by maturity.</li>
+          <li>On-the-run bonds can trade rich because of liquidity and special repo demand.</li>
+          <li>Government par curves are smoothed/interpolated benchmark curves; individual issue curves use specific securities.</li>
+          <li>Timing, quote source, price flags, clean versus dirty price, yield conventions, and explicit maturity mapping all matter.</li>
+        </ol>
+        <p class="note">If differences are unusually large, check date filtering, maturity mapping, percent versus decimal scaling, coupon and maturity fields, TIPS/callable filtering, and whether fallback synthetic data were used.</p>
+      </details>
     </section>
   </main>
 
-  <footer>
-    <p>Static GitHub Pages event study. Raw WRDS/CRSP Treasury data are not published.</p>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div><strong>Fixed Income Desk Quant Platform</strong><br>Static GitHub Pages demo generated from a C++/Python pipeline. Raw WRDS/CRSP rows are not published.</div>
+      <a href="https://github.com/xiaoxu-zhao/Fixed-Income-Desk-Quant-Platform">Source code</a>
+    </div>
   </footer>
 </body>
 </html>
