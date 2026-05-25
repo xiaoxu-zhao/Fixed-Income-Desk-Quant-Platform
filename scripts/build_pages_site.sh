@@ -19,14 +19,24 @@ cp -R "$ROOT/output/plots/." "$DEMO_DIR/plots/"
 
 python python/build_fomc_event_study.py
 python python/plot_fomc_event_study.py
+if [ -f python/compare_on_the_run_to_government_curve.py ]; then
+  if ! python python/compare_on_the_run_to_government_curve.py; then
+    echo "Warning: government/on-the-run curve comparison could not be built" >&2
+  fi
+fi
 
 for plot in \
   fomc_zero_curve_pre_post.png \
   fomc_curve_move_bp.png \
   fomc_zero_rate_surface_3d.png \
   fomc_forward_rate_surface_3d.png \
-  fomc_level_slope_curvature.png; do
-  cp "$ROOT/output/plots/$plot" "$ASSET_PLOTS_DIR/$plot"
+  fomc_level_slope_curvature.png \
+  government_vs_on_the_run_curve_comparison.png; do
+  if [ -f "$ROOT/output/plots/$plot" ]; then
+    cp "$ROOT/output/plots/$plot" "$ASSET_PLOTS_DIR/$plot"
+  else
+    echo "Warning: plot $plot is unavailable and will not be copied to Pages assets" >&2
+  fi
 done
 
 cat > "$DEMO_DIR/index.html" <<'HTML'

@@ -33,6 +33,57 @@
       </div>
     </section>
 
+    <section>
+      <h2>Curve Terminology</h2>
+      <p>The Treasury curve is a liquid USD government benchmark and an approximate risk-free curve for rates-risk visualization. In practice, banks often use SOFR/OIS curves for collateralized derivatives discounting, while Treasury curves are widely used for government-bond pricing, relative-value analysis, key-rate risk, and spread measurement.</p>
+      <p>It is not the same as a SOFR/OIS discount curve, an interbank unsecured funding curve, or the official Treasury par yield curve. Treasury yields may include liquidity premium, term premium, safe-haven demand, inflation expectations, supply/demand effects, and tax or regulatory effects. On-the-run Treasuries are liquid benchmark securities, but they can trade rich because of liquidity and specialness.</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Curve type</th>
+              <th>Built from</th>
+              <th>Meaning</th>
+              <th>Used for in this project</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Treasury par yield curve</td>
+              <td>Official government par yield data.</td>
+              <td>Coupon rate that would price a hypothetical Treasury at par for each maturity.</td>
+              <td>Public benchmark comparison.</td>
+            </tr>
+            <tr>
+              <td>On-the-run observed YTM curve</td>
+              <td>WRDS/CRSP on-the-run Treasury issue yields or prices.</td>
+              <td>Yield to maturity of the most liquid benchmark issues.</td>
+              <td>Event-study visualization and benchmark curve movement.</td>
+            </tr>
+            <tr>
+              <td>Fitted zero curve</td>
+              <td>Dirty prices and cashflows.</td>
+              <td>Discount rates by maturity that approximately reprice selected Treasury issues.</td>
+              <td>Pricing, DV01, forward-rate calculation, and P&amp;L explain.</td>
+            </tr>
+            <tr>
+              <td>SOFR/OIS curve</td>
+              <td>Overnight indexed swaps / SOFR-linked instruments.</td>
+              <td>Secured overnight collateralized discount curve.</td>
+              <td>Future extension for realistic derivatives discounting.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Why Curves Differ</h2>
+      <p>The government Treasury curve and a WRDS/on-the-run curve can differ because they are not the same curve. The Treasury par yield curve is a par curve, while WRDS <strong>TDYLD</strong> is an individual issue yield to maturity. Fitted zero rates are not YTMs; they are discount rates by maturity.</p>
+      <p>On-the-run bonds can trade rich because of liquidity and special repo demand, lowering their yields. Government par curves are smoothed/interpolated benchmark curves; individual issue curves are based on specific securities. Timing, quote source, price flags, clean versus dirty price treatment, bill/note/bond conventions, TIPS/callable filtering, and maturity mapping can all move the result.</p>
+      <p class="note">If the on-the-run curve differs from the government curve by unusually large amounts, check date filtering, maturity mapping, percent versus decimal scaling, clean versus dirty price, coupon and maturity fields, TIPS/callable filtering, and whether fallback synthetic data were used.</p>
+    </section>
+
     <section class="method-list">
       <article class="method-section" id="data-conventions">
         <h2>1. Data Conventions</h2>
@@ -46,7 +97,8 @@ tau = days_between(valuation_date, cashflow_date) / 365.0</div>
       <article class="method-section" id="dirty-price">
         <h2>2. Dirty Price</h2>
         <p>Clean price excludes accrued coupon. Dirty price is the cash amount used for settlement and valuation because it includes coupon earned since the previous coupon date.</p>
-        <div class="formula">P_dirty = P_clean + accrued_interest</div>
+        <div class="formula">dirty_price = TDNOMPRC + TDACCINT
+P_dirty = P_clean + accrued_interest</div>
       </article>
 
       <article class="method-section" id="discount-factors-zero-rates">
@@ -66,14 +118,14 @@ P = sum_i cashflow_i * DF(T_i)</div>
 
       <article class="method-section" id="yield-to-maturity">
         <h2>5. Yield To Maturity</h2>
-        <p>Yield to maturity is the single constant yield that reproduces the dirty price from the scheduled bond cash flows.</p>
+        <p>Yield to maturity is the single constant yield that reproduces the dirty price from the scheduled bond cash flows. In CRSP, <strong>TDYLD</strong> is the promised daily yield field used for observed YTM diagnostics. It is not a zero rate.</p>
         <div class="formula">P_dirty = sum_i cashflow_i / (1 + y / frequency)^(frequency * T_i)</div>
         <p>The solver searches for the yield <strong>y</strong> that makes model price equal observed dirty price.</p>
       </article>
 
       <article class="method-section" id="zero-curve-fitting">
         <h2>6. Zero Curve Fitting</h2>
-        <p>The current demo reads supplied zero-rate nodes. A Treasury calibration workflow would fit the curve by minimizing pricing errors across selected instruments.</p>
+        <p>The core demo reads supplied zero-rate nodes. The FOMC event-study diagnostics separate observed YTM from an approximate fitted zero curve. In a production Treasury calibration, zero rates are fit so model dirty prices approximately match observed dirty prices from selected cashflow instruments.</p>
         <div class="formula">min_z sum_j weight_j * (P_model_j(z) - P_market_j)^2</div>
         <p>Short bills, notes, and bonds should be filtered for usable quotes, valid maturities, and consistent accrued-interest treatment before fitting.</p>
       </article>
@@ -150,6 +202,7 @@ curvature = 2 * z_5Y - z_2Y - z_10Y</div>
 PV_float = notional * (1 - DF(T_n))
 PV_payer_fixed = PV_float - PV_fixed</div>
         <p>Receiver-fixed swaps use the opposite sign.</p>
+        <p>For realistic collateralized derivatives discounting, banks typically use SOFR/OIS curves rather than Treasury curves. SOFR/OIS discounting is a future extension for this project.</p>
       </article>
 
       <article class="method-section" id="execution-analytics">

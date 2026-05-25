@@ -253,6 +253,17 @@ The same static dashboard is published from GitHub Actions to GitHub Pages:
 
 The GitHub Pages website includes an event-study page for the June 15, 2022 FOMC meeting. It shows the pre/post Treasury curve, curve move in basis points, 3D zero/yield surface, 3D forward-rate surface, and level/slope/curvature diagnostics. The page demonstrates that event-window Treasury curve moves can be non-parallel, so maturity-by-maturity risk matters. Raw WRDS/CRSP Treasury data are not published in the repository.
 
+The Treasury curve is a liquid USD government benchmark and an approximate risk-free curve for rates-risk visualization. In practice, banks often use SOFR/OIS curves for collateralized derivatives discounting, while Treasury curves are widely used for government-bond pricing, relative-value analysis, key-rate risk, and spread measurement.
+
+The event-study scripts extract the observed on-the-run YTM curve from the private quotation CSV using `TDYLD`. They also compute dirty price as `TDNOMPRC + TDACCINT` for fitted-zero diagnostics. The raw WRDS/CRSP quotation file is not committed; public Pages builds use deterministic fallback data when the private file is unavailable.
+
+| Curve type | Built from | Meaning | Used for in this project |
+|---|---|---|---|
+| Treasury par yield curve | Official government par yield data. | Coupon rate that would price a hypothetical Treasury at par for each maturity. | Public benchmark comparison. |
+| On-the-run observed YTM curve | WRDS/CRSP on-the-run Treasury issue yields or prices. | Yield to maturity of the most liquid benchmark issues. | Event-study visualization and benchmark curve movement. |
+| Fitted zero curve | Dirty prices and cashflows. | Discount rates by maturity that approximately reprice selected Treasury issues. | Pricing, DV01, forward-rate calculation, and P&L explain. |
+| SOFR/OIS curve | Overnight indexed swaps / SOFR-linked instruments. | Secured overnight collateralized discount curve. | Future extension for realistic derivatives discounting. |
+
 ## 7. Current Limitations
 
 This is an interview-ready simulation, not a production desk system.

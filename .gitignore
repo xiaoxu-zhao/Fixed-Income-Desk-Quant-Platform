@@ -1,4 +1,5 @@
 build/
+data_private/
 output/*.csv
 output/*.md
 output/*.html
